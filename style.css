@@ -1,0 +1,16 @@
+body {
+  background-color: #dae6d3ff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: bold;
+  color: rgb(68, 71, 70);
+}
+
+.app {
+  background: white;
+  max-width: 600px;
+  margin: 45px auto;
+  box-shadow: 0 30px 50px rgba(65, 50, 100, 0.08);
+  border-radius: 16px;
+  padding: 30px;
+}
