@@ -4,8 +4,11 @@ body {
   font-weight: 400;
   font-style: bold;
   color: rgb(68, 71, 70);
+  background-image: url("cielo.jpg");
+  background-size: cover; /* <------ */
+  background-repeat: no-repeat;
+  background-position: center center;
 }
-
 a {
   color: #84967fff;
 }
