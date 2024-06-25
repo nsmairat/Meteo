@@ -1,4 +1,6 @@
-function refreshWeather(response) {
+// in the response we have the info from the api
+function refreshWeather(response){
+  //now i create a variable called temperatureElement to store the element ....
   let temperatureElement = document.querySelector("#temperature");
   let temperature = response.data.temperature.current;
   let cityElement = document.querySelector("#city");
@@ -16,6 +18,9 @@ function refreshWeather(response) {
   descriptionElememt.innerHTML = response.data.condition.description;
   cityElement.innerHTML = response.data.city;
   temperatureElement.innerHTML = Math.round(temperature);
+  getForecast(response.data.city);
+
+
 }
 
 function formatDate(date) {
@@ -39,8 +44,10 @@ function formatDate(date) {
 }
 
 function searchCity(city) {
+  //step 2 after we refresh, first function to run
   let apiKey = `6a4bo439f4518f900acccae6f3t294be`;
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+  // axios gets info from api and then calls the function refreshWeather and it sends the response to it
   axios.get(apiUrl).then(refreshWeather);
 }
 
@@ -51,30 +58,32 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 //new project forecast starts here...
-function displayForecast() {
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+function getForecast(city) {
+  let apiKey = "6a4bo439f4518f900acccae6f3t294be";
+  let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  console.log(apiUrl);
+  axios(apiUrl).then(displayForecast);
+}
+
+function displayForecast(response) {
+  console.log(response.data);
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu"];
   let forecastHtml = "";
 
   days.forEach(function (day) {
     forecastHtml =
       forecastHtml +
       `
-<div class="row">
-<div class="col-2">
-  <div class="weather-forecast-date">${day}</div>
-
- <img
-   src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/rain-night.png"
-  alt=""
-  width="42"
-/>
-<div class="weather-forecast-temperature">
- <span class="weather-forecast-temperature-max">18</span>
- <span class="weather-forecast-temperature-min">12</span>
- </div>
-</div>
- </div>
-
+      <div class = "weather-forecast-day">
+        <div class = "weather-forecast-date">${day}</div>
+           <div class = "weather-forecast-icon">⛅️</div>
+             <div class ="weather-forecast-temperatures">
+                 <div class ="weather-forecast-temperature">
+                    <strong>18</strong>
+             </div>
+           <div class ="weather-forecast-temperature">12</div>
+        </div>
+      </div>
 `;
   });
 
@@ -83,7 +92,10 @@ function displayForecast() {
 }
 
 //new project forecast finishes here...
+
+// step 1 when we refresh
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 searchCity("Locorotondo");
+
 displayForecast();
